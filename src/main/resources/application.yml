@@ -1,0 +1,113 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: cloudfiner
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cloudfiner
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 30000
+      connection-timeout: 20000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 2000
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 5
+          min-idle: 1
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 300000   # 5 minutes
+
+telegram:
+  bot:
+    token: ${TELEGRAM_BOT_TOKEN}
+    username: ${TELEGRAM_BOT_USERNAME:cloudfiner_cost_analyser_bot}
+
+jwt:
+  secret: ${JWT_SECRET}
+  access-expiration: 86400000
+  refresh-expiration: 2592000000
+
+aws:
+  account:
+    id: ${AWS_ACCOUNT_ID}
+  region: ${AWS_REGION:ap-south-1}
+  insight:
+    low-usage-threshold: 1
+    high-percentage-threshold: 0.5
+    critical-percentage-threshold: 0.7
+    spike-threshold: 50
+
+currency:
+  cache:
+    ttl: 3600000   # 1 hour
+  api:
+    primary: https://open.er-api.com/v6/latest/USD
+    backup: https://api.exchangerate.host/latest?base=USD
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      awsService:
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 2
+        minimumNumberOfCalls: 3
+
+  retry:
+    instances:
+      currencyRetry:
+        max-attempts: 3
+        wait-duration: 2s
+
+      awsRetry:
+        max-attempts: 3
+        wait-duration: 2s
+
+      alertRetry:
+        max-attempts: 3
+        wait-duration: 2s
+        retry-exceptions:
+          - java.lang.Exception
+
+logging:
+  level:
+    root: INFO
+    com.aws: DEBUG
