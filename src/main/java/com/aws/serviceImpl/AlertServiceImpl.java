@@ -21,7 +21,7 @@ public class AlertServiceImpl implements AlertService {
     @Override
     public void trigger(String userId, InsightDto insight) {
 
-        // 🔥 Redis Dedup Key
+        // Redis Dedup Key
         String key = "alert:" + userId + ":" + insight.getMessage();
 
         Boolean exists = redisTemplate.hasKey(key);
@@ -31,16 +31,17 @@ public class AlertServiceImpl implements AlertService {
             return;
         }
 
-        // 🔥 Set TTL (5 min)
+        // Set TTL 
         redisTemplate.opsForValue().set(key, "sent", 5, TimeUnit.MINUTES);
 
         // ================= REAL ALERT =================
 
         log.warn("ALERT user={} message={}", userId, insight.getMessage());
 
-        // TODO:
-        // send email
-        // send telegram
-        // send websocket
+       
     }
 }
+
+
+
+

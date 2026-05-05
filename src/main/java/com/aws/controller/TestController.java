@@ -1,9 +1,10 @@
 package com.aws.controller;
 
 import java.math.BigDecimal;
-import java.security.Principal;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -50,6 +51,10 @@ public class TestController {
     
     @Autowired
     private TelegramSenderService telegramSenderService;
+    
+    
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
 
   
@@ -114,5 +119,18 @@ public class TestController {
         telegramSenderService.send(user, "High cost alert triggered!");
 
         return "Triggered";
+    }
+    
+    
+
+
+    @GetMapping("/redis")
+    public String testRedis() {
+
+        redisTemplate.opsForValue().set("name", "Ankit");
+
+        Object value = redisTemplate.opsForValue().get("name");
+
+        return "Redis Working: " + value;
     }
 }

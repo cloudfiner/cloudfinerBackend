@@ -16,7 +16,7 @@ public class RateLimitService {
 
     private final StringRedisTemplate redisTemplate;
 
-    // 🔥 configurable values
+    //  configurable values
     private static final int MAX_REQUESTS = 3;
     private static final long WINDOW_SECONDS = 10;
 
@@ -44,8 +44,11 @@ public class RateLimitService {
         }
     }
 
-    // 🔥 clean key structure (important for scaling)
+    //  clean key structure (important for scaling)
     private String buildKey(UUID userId) {
         return "aws:rate-limit:user:" + userId;
     }
 }
+
+
+

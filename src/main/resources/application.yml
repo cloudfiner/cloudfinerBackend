@@ -40,9 +40,13 @@ spring:
 
   data:
     redis:
-      host: localhost
-      port: 6379
-      timeout: 2000
+      host: ${REDIS_HOST}        # 🔥 Upstash host
+      port: ${REDIS_PORT:6379}   # default 6379
+      password: ${REDIS_PASSWORD}
+      ssl:
+        enabled: true            # 🔥 VERY IMPORTANT (Upstash)
+      timeout: 6000
+
       lettuce:
         pool:
           max-active: 10
@@ -76,7 +80,7 @@ aws:
 
 currency:
   cache:
-    ttl: 3600000   # 1 hour
+    ttl: 3600000
   api:
     primary: https://open.er-api.com/v6/latest/USD
     backup: https://api.exchangerate.host/latest?base=USD
