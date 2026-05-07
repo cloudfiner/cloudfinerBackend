@@ -10,13 +10,9 @@ import lombok.*;
 @AllArgsConstructor
 public class SignupDto {
      
-	  @NotBlank(message = "Name is required")
-	    @Size(min = 2, max = 50, message = "Name must be between 2-50 characters")
-	    @Pattern(
-	        regexp = "^[a-zA-Z ]+$",
-	        message = "Name should contain only alphabets and spaces"
-	    )
-	 private String name;
+	@NotBlank(message = "Name is required")
+	@Size(min = 2, max = 50, message = "Name must be between 2-50 characters")
+	private String name;
 	  
     @Email(message = "Invalid email format")
     @NotBlank(message = "Email is required")
