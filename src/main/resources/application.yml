@@ -1,126 +1,3 @@
-#server:
-#  port: ${PORT:8080}
-#
-#spring:
-#  application:
-#    name: cloudfiner
-#
-#  datasource:
-#    url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
-#    username: ${PGUSER}
-#    password: ${PGPASSWORD}
-#    driver-class-name: org.postgresql.Driver
-#
-#    hikari:
-#      maximum-pool-size: 10
-#      minimum-idle: 2
-#      idle-timeout: 30000
-#      connection-timeout: 20000
-#
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: false
-#    properties:
-#      hibernate:
-#        format_sql: false
-#        dialect: org.hibernate.dialect.PostgreSQLDialect
-#
-#  mail:
-#    host: smtp.gmail.com
-#    port: 587
-#    username: ${MAIL_USERNAME}
-#    password: ${MAIL_PASSWORD}
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#          starttls:
-#            enable: true
-#
-#  data:
-#    redis:
-#      host: ${REDIS_HOST}        # 🔥 Upstash host
-#      port: ${REDIS_PORT:6379}   # default 6379
-#      password: ${REDIS_PASSWORD}
-#      ssl:
-#        enabled: true            # 🔥 VERY IMPORTANT (Upstash)
-#      timeout: 6000
-#
-#      lettuce:
-#        pool:
-#          max-active: 10
-#          max-idle: 5
-#          min-idle: 1
-#
-#  cache:
-#    type: redis
-#    redis:
-#      time-to-live: 300000   # 5 minutes
-#
-#telegram:
-#  bot:
-#    token: ${TELEGRAM_BOT_TOKEN}
-#    username: ${TELEGRAM_BOT_USERNAME:cloudfiner_cost_analyser_bot}
-#
-#jwt:
-#  secret: ${JWT_SECRET}
-#  access-expiration: 86400000
-#  refresh-expiration: 2592000000
-#
-#aws:
-#  account:
-#    id: ${AWS_ACCOUNT_ID}
-#  region: ${AWS_REGION:ap-south-1}
-#  insight:
-#    low-usage-threshold: 1
-#    high-percentage-threshold: 0.5
-#    critical-percentage-threshold: 0.7
-#    spike-threshold: 50
-#
-#currency:
-#  cache:
-#    ttl: 3600000
-#  api:
-#    primary: https://open.er-api.com/v6/latest/USD
-#    backup: https://api.exchangerate.host/latest?base=USD
-#
-#resilience4j:
-#  circuitbreaker:
-#    instances:
-#      awsService:
-#        slidingWindowSize: 5
-#        failureRateThreshold: 50
-#        waitDurationInOpenState: 10s
-#        permittedNumberOfCallsInHalfOpenState: 2
-#        minimumNumberOfCalls: 3
-#
-#  retry:
-#    instances:
-#      currencyRetry:
-#        max-attempts: 3
-#        wait-duration: 2s
-#
-#      awsRetry:
-#        max-attempts: 3
-#        wait-duration: 2s
-#
-#      alertRetry:
-#        max-attempts: 3
-#        wait-duration: 2s
-#        retry-exceptions:
-#          - java.lang.Exception
-#
-#logging:
-#  level:
-#    root: INFO
-#    com.aws: DEBUG
-
-
-
-#below on is temp
-
-
 server:
   port: ${PORT:8080}
 
@@ -143,7 +20,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
     show-sql: false
+
     properties:
       hibernate:
         format_sql: false
@@ -154,10 +33,12 @@ spring:
     port: 587
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
+
     properties:
       mail:
         smtp:
           auth: true
+
           starttls:
             enable: true
 
@@ -166,8 +47,10 @@ spring:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD}
+
       ssl:
         enabled: true
+
       timeout: 6000
 
       repositories:
@@ -182,19 +65,23 @@ spring:
   cache:
     type: simple
 
+    redis:
+      time-to-live: 300000
+
 telegram:
   bot:
     token: ${TELEGRAM_BOT_TOKEN}
     username: ${TELEGRAM_BOT_USERNAME:cloudfiner_cost_analyser_bot}
 
 jwt:
-  secret: ${JWT_SECRET:testsecret123}
+  secret: ${JWT_SECRET}
   access-expiration: 86400000
   refresh-expiration: 2592000000
 
 aws:
   account:
-    id: ${AWS_ACCOUNT_ID:dummy}
+    id: ${AWS_ACCOUNT_ID}
+
   region: ${AWS_REGION:ap-south-1}
 
   insight:
@@ -234,6 +121,7 @@ resilience4j:
       alertRetry:
         max-attempts: 3
         wait-duration: 2s
+
         retry-exceptions:
           - java.lang.Exception
 
@@ -247,5 +135,3 @@ logging:
   level:
     root: INFO
     com.aws: DEBUG
-	
-	
