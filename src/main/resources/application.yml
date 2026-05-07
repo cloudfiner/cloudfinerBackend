@@ -20,9 +20,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-
     show-sql: false
-
     properties:
       hibernate:
         format_sql: false
@@ -33,28 +31,21 @@ spring:
     port: 587
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
-
     properties:
       mail:
         smtp:
           auth: true
-
           starttls:
             enable: true
 
   data:
     redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT:6379}
+      host: ${REDIS_HOST}        # 🔥 Upstash host
+      port: ${REDIS_PORT:6379}   # default 6379
       password: ${REDIS_PASSWORD}
-
       ssl:
-        enabled: true
-
+        enabled: true            # 🔥 VERY IMPORTANT (Upstash)
       timeout: 6000
-
-      repositories:
-        enabled: false
 
       lettuce:
         pool:
@@ -63,10 +54,9 @@ spring:
           min-idle: 1
 
   cache:
-    type: simple
-
+    type: redis
     redis:
-      time-to-live: 300000
+      time-to-live: 300000   # 5 minutes
 
 telegram:
   bot:
@@ -81,9 +71,7 @@ jwt:
 aws:
   account:
     id: ${AWS_ACCOUNT_ID}
-
   region: ${AWS_REGION:ap-south-1}
-
   insight:
     low-usage-threshold: 1
     high-percentage-threshold: 0.5
@@ -93,7 +81,6 @@ aws:
 currency:
   cache:
     ttl: 3600000
-
   api:
     primary: https://open.er-api.com/v6/latest/USD
     backup: https://api.exchangerate.host/latest?base=USD
@@ -121,15 +108,8 @@ resilience4j:
       alertRetry:
         max-attempts: 3
         wait-duration: 2s
-
         retry-exceptions:
           - java.lang.Exception
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
 
 logging:
   level:
