@@ -40,11 +40,11 @@ spring:
 
   data:
     redis:
-      host: ${REDIS_HOST}        # 🔥 Upstash host
-      port: ${REDIS_PORT:6379}   # default 6379
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD}
       ssl:
-        enabled: true            # 🔥 VERY IMPORTANT (Upstash)
+        enabled: true
       timeout: 6000
 
       lettuce:
@@ -56,7 +56,7 @@ spring:
   cache:
     type: redis
     redis:
-      time-to-live: 300000   # 5 minutes
+      time-to-live: 300000
 
 telegram:
   bot:
@@ -72,6 +72,7 @@ aws:
   account:
     id: ${AWS_ACCOUNT_ID}
   region: ${AWS_REGION:ap-south-1}
+
   insight:
     low-usage-threshold: 1
     high-percentage-threshold: 0.5
@@ -81,6 +82,7 @@ aws:
 currency:
   cache:
     ttl: 3600000
+
   api:
     primary: https://open.er-api.com/v6/latest/USD
     backup: https://api.exchangerate.host/latest?base=USD
@@ -110,6 +112,16 @@ resilience4j:
         wait-duration: 2s
         retry-exceptions:
           - java.lang.Exception
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+  endpoint:
+    health:
+      show-details: always
 
 logging:
   level:
