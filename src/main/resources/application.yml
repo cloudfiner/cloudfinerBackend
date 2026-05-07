@@ -43,8 +43,10 @@ spring:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD}
+
       ssl:
         enabled: true
+
       timeout: 6000
 
       lettuce:
@@ -55,6 +57,7 @@ spring:
 
   cache:
     type: redis
+
     redis:
       time-to-live: 300000
 
@@ -71,6 +74,7 @@ jwt:
 aws:
   account:
     id: ${AWS_ACCOUNT_ID}
+
   region: ${AWS_REGION:ap-south-1}
 
   insight:
@@ -122,6 +126,10 @@ management:
   endpoint:
     health:
       show-details: always
+
+  health:
+    redis:
+      enabled: false
 
 logging:
   level:
