@@ -131,22 +131,22 @@ public class UserController {
 	            // Cookie (dev config)
 	            ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
 	                    .httpOnly(true)
-	                    .secure(false)
+	                    .secure(true)
+	                    .sameSite("None")
 	                    .path("/")
 	                    .maxAge(60 * 60 * 24 * 30)
-	                    .sameSite("Lax")
 	                    .build();
 
 	            response.addHeader("Set-Cookie", cookie.toString());
 
 	            // IMPORTANT: send roles as LIST (not String)
 	            AuthResponse authResponse = new AuthResponse(
-	                    accessToken,
-	                    null,
-	                    userDetails.getUsername(),
-	                    userDetails.getUsername(),
-	                    roles,   // fixed
-	                    3600000L
+	            	     accessToken,
+	            	        refreshToken,
+	            	        userDetails.getUsername(),
+	            	        userDetails.getUsername(),
+	            	        roles,
+	            	        86400000L
 	            );
 
 	            activityLogService.log("LOGIN", userDetails.getUsername(), request.getRemoteAddr());
