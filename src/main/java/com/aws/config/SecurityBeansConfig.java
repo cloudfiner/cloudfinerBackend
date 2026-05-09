@@ -20,15 +20,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import org.springframework.web.cors.*;
-
-import java.util.List;
-
 @Configuration
 public class SecurityBeansConfig {
 
     @Autowired
     private JwtFilter jwtFilter;
+
+    @Autowired
+    private CorsConfig corsConfig;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -41,32 +40,10 @@ public class SecurityBeansConfig {
     }
 
     @Bean
-public CorsConfigurationSource corsConfigurationSource() {
-
-    CorsConfiguration config = new CorsConfiguration();
-
-    config.setAllowedOrigins(List.of(
-        "http://localhost:5173",
-        "https://cloudfiner-frontend.vercel.app"
-    ));
-
-    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-    config.setAllowedHeaders(List.of("*"));
-    config.setAllowCredentials(true);
-
-    config.setExposedHeaders(List.of("Authorization"));
-
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", config);
-
-    return source;
-}
-
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
 
             .sessionManagement(session ->
@@ -86,19 +63,19 @@ public CorsConfigurationSource corsConfigurationSource() {
                 // Preflight
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                // Auth सार्वजनिक endpoints
+                // Public auth endpoints
                 .requestMatchers(
-                        "/api/auth/login",
-                        "/api/auth/register",
-                        "/api/auth/forgot-password",
-                        "/api/auth/reset-password",
-                        "/api/auth/refresh",
-                        "/api/auth/logout",
-                        "/v3/api-docs/**",
-                        "/swagger-ui/**",
-                        "/swagger-ui.html",
-                        "/actuator/**",
-                        "/api/health"
+                    "/api/auth/login",
+                    "/api/auth/register",
+                    "/api/auth/forgot-password",
+                    "/api/auth/reset-password",
+                    "/api/auth/refresh",
+                    "/api/auth/logout",
+                    "/v3/api-docs/**",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/actuator/**",
+                    "/api/health"
                 ).permitAll()
 
                 // WebSocket
@@ -107,21 +84,20 @@ public CorsConfigurationSource corsConfigurationSource() {
                 // Telegram webhook
                 .requestMatchers("/api/telegram/webhook").permitAll()
 
-                // Demo APIs (सबसे जरूरी)
+                // Demo APIs
                 .requestMatchers(
-                        "/api/cost/**",          // demo cost
-                        "/api/alerts/all",       // demo alerts
-                        "/api/notifications/**", // demo notifications
-                        "/api/budgets"
-                		
-                		).permitAll()
+                    "/api/cost/**",
+                    "/api/alerts/all",
+                    "/api/notifications/**",
+                    "/api/budgets"
+                ).permitAll()
 
                 // Admin
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
-                // बाकी सब secured
+                // Everything else secured
                 .requestMatchers("/api/**").authenticated()
-                
+
                 .anyRequest().authenticated()
             )
 
