@@ -52,11 +52,10 @@ public class CorsConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of(
-            "https://cloudfiner-frontend.vercel.app",
-            "http://localhost:5173",
-            "http://localhost:3000"
-        ));
+        config.setAllowedOriginPatterns(List.of(
+        	    "https://*.vercel.app",
+        	    "http://localhost:*"
+        	));
 
         config.setAllowedMethods(List.of(
             "GET",
