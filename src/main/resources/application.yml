@@ -45,8 +45,8 @@ spring:
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD}
 
-#      ssl:
-#        enabled: true
+      ssl:
+        enabled: true
 
       timeout: 6000
 
@@ -57,7 +57,7 @@ spring:
           min-idle: 1
 
   cache:
-    type: none
+    type: redis
 
     redis:
       time-to-live: 300000
@@ -130,7 +130,7 @@ management:
 
   health:
     redis:
-      enabled: false
+      enabled: true
 
 logging:
   level:
