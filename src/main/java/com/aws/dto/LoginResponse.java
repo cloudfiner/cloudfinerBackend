@@ -1,5 +1,6 @@
 package com.aws.dto;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,12 +11,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginResponse {
+public class LoginResponse implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String accessToken;
     private String refreshToken;
 
-    private UUID userId;   // ✅ FIXED
+    private UUID userId;
     private String email;
     private String name;
 

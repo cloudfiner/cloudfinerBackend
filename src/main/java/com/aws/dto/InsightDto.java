@@ -1,7 +1,5 @@
 package com.aws.dto;
 
-
-
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +11,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class InsightDto implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private String message;
-    private String type;      // INFO / WARNING / CRITICAL
-    private String service;   // EC2, S3, etc.
+    private String type;
+    private String service;
 }

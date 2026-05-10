@@ -1,5 +1,7 @@
 package com.aws.dto;
 
+import java.io.Serializable;
+
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -7,7 +9,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResetPasswordRequest {
+public class ResetPasswordRequest implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Email
     @NotBlank

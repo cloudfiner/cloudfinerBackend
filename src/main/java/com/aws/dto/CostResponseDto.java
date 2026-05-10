@@ -2,6 +2,7 @@ package com.aws.dto;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -9,7 +10,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CostResponseDto {
+public class CostResponseDto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     // ================= DATA =================
     private List<DailyCostDto> dailyData;

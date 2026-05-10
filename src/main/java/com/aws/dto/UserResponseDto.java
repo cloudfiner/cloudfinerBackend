@@ -1,6 +1,6 @@
 package com.aws.dto;
 
-
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,16 +10,15 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponseDto {
-     
-	private UUID id; 
+public class UserResponseDto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private UUID id;
     private String name;
     private String email;
-   
-    private List<String> roles;
-    // ROLE_USER / ROLE_ADMIN
- 
 
-    // ACTIVE / INACTIVE
+    private List<String> roles;
+
     private String status;
 }

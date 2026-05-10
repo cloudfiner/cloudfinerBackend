@@ -8,7 +8,9 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServiceCostDto  implements Serializable{
+public class ServiceCostDto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String service;
     private Double cost;
