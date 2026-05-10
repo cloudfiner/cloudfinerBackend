@@ -177,6 +177,12 @@
 			<artifactId>resilience4j-spring-boot3</artifactId>
 			<version>${resilience4j.version}</version>
 		</dependency>
+		
+		<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <scope>test</scope>
+</dependency>
 
 		<!-- Testing -->
 		<dependency>
