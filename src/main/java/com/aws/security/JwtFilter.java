@@ -41,27 +41,35 @@ public class JwtFilter extends OncePerRequestFilter {
                                    FilterChain filterChain)
             throws ServletException, IOException {
 
+        // IMPORTANT FOR CORS PREFLIGHT REQUESTS
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authHeader = request.getHeader("Authorization");
 
         try {
+
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
                 String token = authHeader.substring(7);
 
-                // 🔥 1. BLACKLIST CHECK
+                // BLACKLIST CHECK
                 if (tokenBlacklistService.isBlacklisted(token)) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.getWriter().write("Token is blacklisted");
                     return;
                 }
 
-                // 🔐 2. Normal JWT flow
                 String username = jwtUtil.extractUsername(token);
 
                 if (username != null &&
                         SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                    var userDetails = userDetailsService.loadUserByUsername(username);
+                    var userDetails =
+                            userDetailsService.loadUserByUsername(username);
 
                     if (jwtUtil.validateAccessToken(token, userDetails)) {
 
@@ -73,10 +81,12 @@ public class JwtFilter extends OncePerRequestFilter {
                                 );
 
                         authentication.setDetails(
-                                new WebAuthenticationDetailsSource().buildDetails(request)
+                                new WebAuthenticationDetailsSource()
+                                        .buildDetails(request)
                         );
 
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                        SecurityContextHolder.getContext()
+                                .setAuthentication(authentication);
                     }
                 }
             }
